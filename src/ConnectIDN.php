@@ -51,9 +51,7 @@ class ConnectIDN
 
     public function loginButton(
         string $loginPath = '/auth/login',
-        string $label = 'Login with ConnectIDN',
-        string $size = 'md',
-        string $variant = 'default',
+        ?string $logoSrc = null,
     ): string {
         // Hanya izinkan path relatif; blokir URI injection dan protocol-relative URL
         if (preg_match('/^\s*(javascript|vbscript|data):/i', $loginPath)
@@ -62,23 +60,33 @@ class ConnectIDN
             $loginPath = '/auth/login';
         }
 
-        $isOutline = $variant === 'outline';
-        $sizes = [
-            'sm' => 'padding:8px 16px;font-size:13px;border-radius:6px',
-            'md' => 'padding:11px 22px;font-size:15px;border-radius:8px',
-            'lg' => 'padding:14px 28px;font-size:17px;border-radius:10px',
-        ];
+        $style = implode(';', [
+            'display:inline-flex',
+            'align-items:center',
+            'gap:14px',
+            'background:#294174',
+            'color:#ffffff',
+            'padding:12px 24px 12px 20px',
+            'border-radius:12px',
+            'text-decoration:none',
+            'cursor:pointer',
+            'border:none',
+            'font-family:Inter,system-ui,sans-serif',
+            'line-height:1.2',
+        ]);
 
-        $bg    = $isOutline ? 'transparent' : '#1a5276';
-        $color = $isOutline ? '#1a5276' : '#ffffff';
-        $border = $isOutline ? 'border:1.5px solid #1a5276;' : '';
-        $style = "display:inline-flex;align-items:center;gap:8px;font-family:Inter,system-ui,sans-serif;font-weight:500;text-decoration:none;background:{$bg};color:{$color};{$border}" . ($sizes[$size] ?? $sizes['md']);
+        $logo = $logoSrc !== null
+            ? '<img src="' . htmlspecialchars($logoSrc, ENT_QUOTES, 'UTF-8') . '" width="36" height="36" style="object-fit:contain;flex-shrink:0;" alt="">'
+            : '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="2"/><path d="M8 12a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z" fill="currentColor" opacity="0.8"/></svg>';
 
-        $logo = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="2"/><path d="M8 12a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z" fill="currentColor" opacity="0.8"/></svg>';
-        $safeLabel = htmlspecialchars($label, ENT_QUOTES, 'UTF-8');
-        $safePath  = htmlspecialchars($loginPath, ENT_QUOTES, 'UTF-8');
+        $text = '<span style="display:flex;flex-direction:column;text-align:center;align-items:center;">'
+            . '<span style="font-size:11px;font-weight:400;opacity:0.85;letter-spacing:0.2px;">Login with</span>'
+            . '<span style="font-size:17px;font-weight:700;letter-spacing:0.5px;">CONNECTIDN</span>'
+            . '</span>';
 
-        return "<a href=\"{$safePath}\" style=\"{$style}\" aria-label=\"{$safeLabel}\">{$logo}{$safeLabel}</a>";
+        $safePath = htmlspecialchars($loginPath, ENT_QUOTES, 'UTF-8');
+
+        return "<a href=\"{$safePath}\" style=\"{$style}\" aria-label=\"Login with ConnectIDN\">{$logo}{$text}</a>";
     }
 
     private function buildClient(): OpenIDConnectClient
