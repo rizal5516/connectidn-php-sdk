@@ -13,7 +13,12 @@ class RequireAuth
             $loginPath = '/auth/login';
         }
 
-        if (session_status() === PHP_SESSION_NONE) {
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            trigger_error(
+                'RequireAuth: session already started before guard() — cookie security flags (HttpOnly, Secure, SameSite) may not have been applied.',
+                E_USER_WARNING
+            );
+        } else {
             ini_set('session.cookie_httponly', '1');
             ini_set('session.cookie_secure', '1');
             ini_set('session.cookie_samesite', 'Lax');
@@ -42,5 +47,6 @@ class RequireAuth
     public static function clear(): void
     {
         unset($_SESSION['connectidn_user'], $_SESSION['connectidn_id_token']);
+        session_regenerate_id(true);
     }
 }

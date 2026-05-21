@@ -18,7 +18,21 @@ class ConnectIDNConfig
         public readonly string $environment = 'staging',
         public readonly array  $scopes = ['openid', 'profile', 'email'],
         public readonly string $postLogoutUri = '/',
+        public readonly bool   $verifyTls = true,
     ) {}
+
+    public function __debugInfo(): array
+    {
+        return [
+            'clientId'      => $this->clientId,
+            'clientSecret'  => '[REDACTED]',
+            'redirectUri'   => $this->redirectUri,
+            'environment'   => $this->environment,
+            'scopes'        => $this->scopes,
+            'postLogoutUri' => $this->postLogoutUri,
+            'verifyTls'     => $this->verifyTls,
+        ];
+    }
 
     public function issuerUrl(): string
     {

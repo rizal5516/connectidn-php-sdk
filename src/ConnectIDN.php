@@ -37,8 +37,15 @@ class ConnectIDN
 
     public function logout(string $idToken, ?string $postLogoutUri = null): never
     {
+        $redirectUri = $postLogoutUri ?? $this->config->postLogoutUri;
+
+        if ($idToken === '') {
+            header('Location: ' . $redirectUri);
+            exit;
+        }
+
         $oidc = $this->buildClient();
-        $oidc->signOut($idToken, $postLogoutUri ?? $this->config->postLogoutUri);
+        $oidc->signOut($idToken, $redirectUri);
         exit;
     }
 
@@ -48,8 +55,10 @@ class ConnectIDN
         string $size = 'md',
         string $variant = 'default',
     ): string {
-        // Cegah JavaScript/VBScript URI injection pada href
-        if (preg_match('/^\s*(javascript|vbscript|data):/i', $loginPath)) {
+        // Hanya izinkan path relatif; blokir URI injection dan protocol-relative URL
+        if (preg_match('/^\s*(javascript|vbscript|data):/i', $loginPath)
+            || !str_starts_with($loginPath, '/')
+            || str_starts_with($loginPath, '//')) {
             $loginPath = '/auth/login';
         }
 
@@ -84,7 +93,7 @@ class ConnectIDN
         $oidc->addScope($this->config->scopes);
         $oidc->setCodeChallengeMethod('S256');
 
-        if ($this->config->environment === 'development') {
+        if (!$this->config->verifyTls) {
             $oidc->setVerifyHost(false);
             $oidc->setVerifyPeer(false);
         }

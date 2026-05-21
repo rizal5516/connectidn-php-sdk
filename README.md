@@ -96,6 +96,7 @@ echo $connectidn->loginButton(
 | `environment` | `'development'\|'staging'` | — | `'staging'` | Environment ConnectIDN |
 | `scopes` | `array` | — | `['openid','profile','email']` | Scope OIDC |
 | `postLogoutUri` | `string` | — | `'/'` | URL redirect setelah logout |
+| `verifyTls` | `bool` | — | `true` | Verifikasi sertifikat TLS. Set `false` hanya untuk development dengan self-signed certificate |
 
 ## Data User
 
