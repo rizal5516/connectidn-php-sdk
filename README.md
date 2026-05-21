@@ -78,10 +78,6 @@ $connectidn->logout($idToken ?? '', 'https://yourapp.com');
 ### Login Button (HTML Helper)
 
 ```php
-// Default
-echo $connectidn->loginButton('/auth/login');
-
-// Custom logo
 echo $connectidn->loginButton('/auth/login', logoSrc: '/images/logo.png');
 ```
 

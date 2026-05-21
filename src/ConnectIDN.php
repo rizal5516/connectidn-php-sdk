@@ -51,13 +51,17 @@ class ConnectIDN
 
     public function loginButton(
         string $loginPath = '/auth/login',
-        ?string $logoSrc = null,
+        string $logoSrc = '',
     ): string {
         // Hanya izinkan path relatif; blokir URI injection dan protocol-relative URL
         if (preg_match('/^\s*(javascript|vbscript|data):/i', $loginPath)
             || !str_starts_with($loginPath, '/')
             || str_starts_with($loginPath, '//')) {
             $loginPath = '/auth/login';
+        }
+
+        if ($logoSrc === '') {
+            throw new \InvalidArgumentException('loginButton() requires a logoSrc — provide a URL or path to your logo image.');
         }
 
         $style = implode(';', [
@@ -75,9 +79,7 @@ class ConnectIDN
             'line-height:1.2',
         ]);
 
-        $logo = $logoSrc !== null
-            ? '<img src="' . htmlspecialchars($logoSrc, ENT_QUOTES, 'UTF-8') . '" width="36" height="36" style="object-fit:contain;flex-shrink:0;" alt="">'
-            : '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="2"/><path d="M8 12a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z" fill="currentColor" opacity="0.8"/></svg>';
+        $logo = '<img src="' . htmlspecialchars($logoSrc, ENT_QUOTES, 'UTF-8') . '" width="36" height="36" style="object-fit:contain;flex-shrink:0;" alt="">';
 
         $text = '<span style="display:flex;flex-direction:column;text-align:center;align-items:center;">'
             . '<span style="font-size:11px;font-weight:400;opacity:0.85;letter-spacing:0.2px;">Login with</span>'
