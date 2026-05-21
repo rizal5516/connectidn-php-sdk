@@ -93,7 +93,7 @@ echo $connectidn->loginButton(
 | `clientId` | `string` | ✅ | — | Client ID dari portal ConnectIDN |
 | `clientSecret` | `string` | ✅ | — | Client Secret dari portal ConnectIDN |
 | `redirectUri` | `string` | ✅ | — | URL callback setelah login |
-| `environment` | `string` | — | `'staging'` | Environment ConnectIDN |
+| `environment` | `'development'\|'staging'` | — | `'staging'` | Environment ConnectIDN |
 | `scopes` | `array` | — | `['openid','profile','email']` | Scope OIDC |
 | `postLogoutUri` | `string` | — | `'/'` | URL redirect setelah logout |
 

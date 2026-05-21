@@ -7,7 +7,8 @@ namespace BSSN\ConnectIDN;
 class ConnectIDNConfig
 {
     public const ISSUER_URLS = [
-        'staging' => 'https://stg-connect-idn.bssn.go.id/realms/identity-broker',
+        'development' => 'https://dev-connect-idn.bssn.go.id/realms/dev-identity-broker',
+        'staging'     => 'https://stg-connect-idn.bssn.go.id/realms/identity-broker',
     ];
 
     public function __construct(
