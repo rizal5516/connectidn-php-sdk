@@ -84,6 +84,11 @@ class ConnectIDN
         $oidc->addScope($this->config->scopes);
         $oidc->setCodeChallengeMethod('S256');
 
+        if ($this->config->environment === 'development') {
+            $oidc->setVerifyHost(false);
+            $oidc->setVerifyPeer(false);
+        }
+
         return $oidc;
     }
 }
