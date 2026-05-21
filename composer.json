@@ -1,0 +1,29 @@
+{
+  "name": "blpid/connectidn-php",
+  "description": "ConnectIDN SDK for PHP",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "sso",
+    "oidc",
+    "connectidn",
+    "openid-connect",
+    "keycloak"
+  ],
+  "homepage": "https://github.com/blpid/connectidn-php",
+  "authors": [
+    {
+      "name": "BLPID",
+      "email": "your@email.com"
+    }
+  ],
+  "require": {
+    "php": ">=8.1",
+    "jumbojett/openid-connect-php": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "BSSN\\ConnectIDN\\": "src/"
+    }
+  }
+}
